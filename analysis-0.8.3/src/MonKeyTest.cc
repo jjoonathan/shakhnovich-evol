@@ -380,7 +380,6 @@ int main (int argc, char *argv[])
             cout<<res[FIXEDA]<<"\t"<<res[FIXEDS]<<"\t";
             cout<<res[POLYA]<<"\t"<<res[POLYS]<<endl;
       }
-      cerr<<"term\n";
 /*
     }
   catch (Sequence::SeqException &e)
