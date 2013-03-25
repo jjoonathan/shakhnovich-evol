@@ -19,7 +19,7 @@ MKtestOutput::MKtestOutput( const vector<unsigned> & contingency_table,
   _args(&args)
 {
 }
- 
+
 std::ostream & MKtestOutput::print(std::ostream & s)
 {
   //If we have GSL, we do the following tests: Fisher's Exact, G-test, and Chi-squared,
@@ -62,7 +62,7 @@ std::ostream & MKtestOutput::print(std::ostream & s)
       chisq2x2(&contingency_table_dbl[0],4,&Csq,&CsqYates,&pCsq,&pCsqYates);
       if(zeros==0)
 	{
-	  g2(&contingency_table_dbl[0],4,&Gstat,&williams,&Gprob,&GprobCorr);
+	  //g2(&contingency_table_dbl[0],4,&Gstat,&williams,&Gprob,&GprobCorr);
 	}
     }
 #else
@@ -73,10 +73,10 @@ std::ostream & MKtestOutput::print(std::ostream & s)
     {
       s << "#Data from file "<<_args->infile<<":\n";
       s << "#\t" << 'A' << '\t' << 'S' << '\n'
-	<< "#Fixed\t" << (*_contingency_table)[FIXEDA] << '\t' 
+	<< "#Fixed\t" << (*_contingency_table)[FIXEDA] << '\t'
 	<<  (*_contingency_table)[FIXEDS] << '\n'
-	<< "#Poly\t" << (*_contingency_table)[POLYA] << '\t' 
-	<<  (*_contingency_table)[POLYS] << "\n\n";      
+	<< "#Poly\t" << (*_contingency_table)[POLYA] << '\t'
+	<<  (*_contingency_table)[POLYS] << "\n\n";
       s << "#Statistics:\n";
       if ( untestable_table == false)
 	{
@@ -86,18 +86,18 @@ std::ostream & MKtestOutput::print(std::ostream & s)
 	    {
 	      if(tcounts>20)
 		{
-		  s << "#Chi-squared test (chi-squared, p-value):\n" 
+		  s << "#Chi-squared test (chi-squared, p-value):\n"
 		    << Csq <<'\t'<<pCsq<<'\n';
 		}
 	      else
 		{
-		  s << "#Chi-squared test, Yate's correction (chi-squared, p-value):\n" 
+		  s << "#Chi-squared test, Yate's correction (chi-squared, p-value):\n"
 		    << CsqYates <<'\t'<<pCsqYates<<'\n';
 		}
 	      if(zeros==0)
 		{
-		  s << "#G test (G,p-value):\n"<< Gstat << '\t' << Gprob << '\n'; 
-	      s << "#G test with William's correction (G,p-value):\n"<< Gstat/williams 
+		  s << "#G test (G,p-value):\n"<< Gstat << '\t' << Gprob << '\n';
+	      s << "#G test with William's correction (G,p-value):\n"<< Gstat/williams
 		<< '\t'<< GprobCorr <<'\n';
 		}
 	      else
@@ -134,12 +134,12 @@ std::ostream & MKtestOutput::print(std::ostream & s)
 		}
 	      if(zeros==0)
 		{
-		  s << Gstat 
+		  s << Gstat
 		    << '\t'
-		    << Gprob 
+		    << Gprob
 		    << '\t'
-		    << Gstat/williams 
-		    << '\t' 
+		    << Gstat/williams
+		    << '\t'
 		    << GprobCorr;
 		}
 	      else

@@ -60,6 +60,7 @@ subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in texinfo.tex
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/./ax_cxx_compile_stdcxx_11.m4 \
 	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -86,7 +87,7 @@ am_MonKeyTest_OBJECTS = MonKeyTest.$(OBJEXT) MKtestOutput.$(OBJEXT) \
 	cRPimpl.$(OBJEXT) CodonMaker.$(OBJEXT) Warnings.$(OBJEXT) \
 	chisq.$(OBJEXT) fexact.$(OBJEXT)
 MonKeyTest_OBJECTS = $(am_MonKeyTest_OBJECTS)
-MonKeyTest_LDADD = $(LDADD)
+MonKeyTest_DEPENDENCIES =
 am_compute_OBJECTS = compute.$(OBJEXT) compute_functions.$(OBJEXT) \
 	compute_classes.$(OBJEXT) int_handler.$(OBJEXT)
 compute_OBJECTS = $(am_compute_OBJECTS)
@@ -194,19 +195,13 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-CFLAGS = $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL)
+CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
-
-#if HAVEGCC
-#STD=-std=c99
-#else
-#STD=
-#endif
-CXXFLAGS = $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir)
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -363,6 +358,7 @@ snntest_SOURCES = snntest.cc #getopt.c getopt1.c getopt.h getoptFix.h
 @HAVE_CFLOAT_FALSE@CFLOAT = 
 @HAVE_CFLOAT_TRUE@CFLOAT = -DHAVE_CFLOAT
 @HAVE_GSL_HEADERS_TRUE@MKtest_LDADD = -lm -lgsl -lgslcblas
+@HAVE_GSL_HEADERS_TRUE@MonKeyTest_LDADD = -lm -lgsl -lgslcblas
 @HAVE_GSL_HEADERS_TRUE@compute_LDADD = -lgsl -lgslcblas
 @HAVE_GSL_HEADERS_TRUE@snntest_LDADD = -lgsl -lgslcblas
 @HAVE_GSL_HEADERS_TRUE@rsq_LDADD = -lgsl -lgslcblas
@@ -373,6 +369,14 @@ polydNdS_LDADD = -lboost_regex
 @HAVE_STRSTREAM_TRUE@STRSTREAM = -DHAVE_STRSTREAM
 @HAVE_SSTREAM_FALSE@SSTREAM = 
 @HAVE_SSTREAM_TRUE@SSTREAM = -DHAVE_SSTREAM
+
+#if HAVEGCC
+#STD=-std=c99
+#else
+#STD=
+#endif
+AM_CXXFLAGS = $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir)
+AM_CFLAGS = $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL)
 CLINK = -shared-libgcc
 man_MANS = polydNdS.1 rsq.1 kimura80.1 gestimator.1 compute.1 MKtest.1 sharedPoly.1 descPoly.1 HBKpermute.1
 all: all-am

@@ -79,6 +79,7 @@ endif
 
 if HAVE_GSL_HEADERS
 MKtest_LDADD=-lm -lgsl -lgslcblas
+MonKeyTest_LDADD=-lm -lgsl -lgslcblas
 compute_LDADD=-lgsl -lgslcblas
 snntest_LDADD=-lgsl -lgslcblas
 rsq_LDADD=-lgsl -lgslcblas
@@ -107,8 +108,8 @@ endif
 #STD=
 #endif
 
-CXXFLAGS= $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir)
-CFLAGS= $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL)
+AM_CXXFLAGS= $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir)
+AM_CFLAGS= $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL)
 CLINK= -shared-libgcc
 
 
