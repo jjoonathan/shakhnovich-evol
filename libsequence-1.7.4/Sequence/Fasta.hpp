@@ -34,8 +34,8 @@ long with libsequence.  If not, see <http://www.gnu.org/licenses/>.
   ATGATGATCAGATAGACATAGCAGATACATGT\n
   >sequence name 2\n
   ATGTTGGTTTTTTTTTAGAGATGTTTATAGGT\n
-  ETC... 
- 
+  ETC...
+
   @short FASTA sequence stream
 */
 
@@ -56,19 +56,21 @@ namespace Sequence
       Fasta (const Seq & s);
       ~Fasta()/*! placeholder for vtable */ {}
       /*!
-	\exception Sequence::SeqException if memory can't be allocated. 
-	(This is because the data are temporarily read into char *, 
+	\exception Sequence::SeqException if memory can't be allocated.
+	(This is because the data are temporarily read into char *,
 	because that was found to be faster).
 	\exception Sequence::badFormat if the input stream is not
 	in FASTA format
       */
-      std::istream&  read(std::istream &s) 
+      std::istream&  read(std::istream &s)
 	throw (Sequence::badFormat,std::exception);
       /*!
 	\param stream a std::ostream
 	write the sequence in FASTA format to \a stream
       */
       std::ostream& print(std::ostream& s) const;
+      int multiplicity=1, clone_id=0;
+      void read_multiseq (std::istream& stream) throw (std::exception);
     };
 }
 #endif

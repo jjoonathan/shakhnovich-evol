@@ -68,7 +68,7 @@ namespace Sequence
 	  }
 	_data[i] = T(name,seq);
       }
-    assign(_data.begin(),_data.end());
+    //assign(_data.begin(),_data.end());
     return s;
   }
 
@@ -76,9 +76,9 @@ namespace Sequence
   std::ostream & phylipData < T >::print (std::ostream & s) const
   {
     size_t nsam = this->size();
-    s << nsam 
-      << '\t' 
-      << (*this)[0].length() 
+    s << nsam
+      << '\t'
+      << (*this)[0].length()
       << '\n';
     typename phylipData<T>::const_iterator beg = this->begin(),
       end = this->end();
@@ -103,7 +103,7 @@ namespace Sequence
 	      {
 		//need to pad the name with spaces
 		size_t len = _namelen - beg->first.length();
-		std::string newName(beg->first + 
+		std::string newName(beg->first +
 				    std::string(len,' '));
 		std::string::const_iterator b = newName.begin();
 		std::copy(b,b+_namelen,
@@ -133,7 +133,7 @@ namespace Sequence
 	  {
 	    //need to pad the name with spaces
 	    size_t len = _namelen - beg->first.length();
-	    std::string newName(beg->first + 
+	    std::string newName(beg->first +
 				std::string(len,' '));
 	    s << newName;
 	  }
@@ -142,15 +142,15 @@ namespace Sequence
     return s;
   }
 
- 
+
 template<typename T>
 phylipData<T> & phylipData<T>::operator=( const AlignStream<T> & rhs)
 /*!
   An "assignment operator" member function.
-  If a phylipData object was constructed with a value of 
+  If a phylipData object was constructed with a value of
   0 for the sequence name length, this function
   will set _namelen to the max sequence name contained in \a rhs.
-  If the object was constructed with a value k > 0, the 
+  If the object was constructed with a value k > 0, the
   sequence name length will remain unchanged.
 */
 {

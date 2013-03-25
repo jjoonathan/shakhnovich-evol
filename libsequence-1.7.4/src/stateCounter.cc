@@ -61,6 +61,20 @@ namespace Sequence
       */
   {}
 
+  void stateCounter::count(char ch, int multiplicity) {
+      if (ch==_gap) {gap+=multiplicity; return;}
+      switch(toupper(ch)) {
+          case 'A': a += multiplicity; break;
+          case 'G': g += multiplicity; break;
+          case 'C': c += multiplicity; break;
+          case 'T': t += multiplicity; break;
+          case '0': zero += multiplicity; break;
+          case '1': one += multiplicity; break;
+          case 'N': n += multiplicity; break;
+          default: ndna=true;
+      }
+  }
+
   void stateCounter::operator()(const char &ch) const
   /*!
     \param ch the character in position i,j in an alignment

@@ -44,6 +44,7 @@ namespace Sequence
       mutable unsigned a,g,c,t,zero,one,gap,n;
       mutable bool ndna;
       stateCounter(const char &gapchar = '-');
+      void count(char ch, int multiplicity);
       void operator()(const char &ch) const;
       unsigned nStates(void) const;
     };

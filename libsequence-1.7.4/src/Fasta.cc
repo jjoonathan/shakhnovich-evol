@@ -39,10 +39,16 @@ namespace Sequence
 		 constructor for const char *
 	       */
   {}
-  
-  Fasta::Fasta (const Seq & seq) : Seq(seq) 
+
+  Fasta::Fasta (const Seq & seq) : Seq(seq)
     /*! copy constructor */
   {}
+
+  void Fasta::read_multiseq(std::istream& stream) throw (std::exception) {
+      stream >> clone_id >> multiplicity;
+      while(isspace(stream.peek())) stream.get();
+      stream >> second;
+  }
 
   std::istream & Fasta::read (std::istream & stream) throw (Sequence::badFormat,std::exception)
   {
