@@ -1,4 +1,4 @@
-bin_PROGRAMS=rsq compute kimura80  gestimator  polydNdS  HBKpermute MKtest sharedPoly descPoly translateCoding extractCoding Fexact snntest
+bin_PROGRAMS=rsq compute kimura80  gestimator  polydNdS  HBKpermute MKtest sharedPoly descPoly translateCoding extractCoding Fexact snntest MonKeyTest
 rsq_SOURCES=rsq.cc \
 	Correlations.hpp \
 	RandomNumbers.hpp \
@@ -11,7 +11,7 @@ compute_SOURCES=compute.cc \
 	int_handler.hpp \
 	int_handler.cc \
 	compute.1
-kimura80_SOURCES=distance.cc kimura80.1 
+kimura80_SOURCES=distance.cc kimura80.1
 gestimator_SOURCES=gestimator.cc \
 	int_handler.cc \
 	int_handler.hpp \
@@ -25,7 +25,7 @@ polydNdS_SOURCES = polydNdS.cc \
 	Warnings.cc Warnings.hpp \
 	polydNdS.1
 translateCoding_SOURCES = translateCoding.cc \
-	polydNdSbase.cc  polydNdSbase.hpp 
+	polydNdSbase.cc  polydNdSbase.hpp
 MKtest_SOURCES=MKtest.cc \
 	MKtestOutput.hpp MKtestOutput.cc\
 	polydNdSbase.cc polydNdSbase.hpp \
@@ -36,6 +36,16 @@ MKtest_SOURCES=MKtest.cc \
 	chisq.cc chisq.hpp \
 	ctest.h fexact.c g2.h g2.c \
 	MKtest.1
+MonKeyTest_SOURCES=MonKeyTest.cc \
+	MKtestOutput.hpp MKtestOutput.cc\
+	polydNdSbase.cc polydNdSbase.hpp \
+	codingRegionProcessor.hpp codingRegionProcessor.cc \
+	cRPimpl.hpp cRPimpl.cc \
+	CodonMaker.hpp CodonMaker.cc \
+	Warnings.hpp Warnings.cc \
+	chisq.cc chisq.hpp \
+	ctest.h fexact.c
+	MKtest.1
 
 HBKpermute_SOURCES = HBKpermute.cc HBKpermute.1
 sharedPoly_SOURCES = sharedPoly.cc sharedPoly.1
@@ -43,7 +53,7 @@ descPoly_SOURCES = descPoly.cc \
 	polyCommon.cc polyCommon.hpp \
 	descPoly.1
 extractCoding_SOURCES =  extractCoding.cc \
-	polydNdSbase.cc polydNdSbase.hpp 
+	polydNdSbase.cc polydNdSbase.hpp
 Fexact_SOURCES=Fexact_main.cc fexact.c ctest.h
 
 snntest_SOURCES=snntest.cc #getopt.c getopt1.c getopt.h getoptFix.h
@@ -95,10 +105,10 @@ endif
 #STD=-std=c99
 #else
 #STD=
-#endif 
+#endif
 
-CXXFLAGS= $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir) 
-CFLAGS= $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL) 
+CXXFLAGS= $(OTHERFLAGS)  $(STRSTREAM) $(SSTREAM) $(LIMITS) $(CFLOAT) $(GSL) -Wall -I$(includedir)
+CFLAGS= $(STD) $(OTHERFLAGS) -Wall -I$(includedir) $(GSL)
 CLINK= -shared-libgcc
 
 

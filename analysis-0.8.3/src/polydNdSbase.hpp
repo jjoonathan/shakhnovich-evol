@@ -26,6 +26,7 @@ using Sequence::PolySites;
 struct params
 {
     char *infile;//file containing data
+	char* i1; char* i2;
     vector<int> intervals;//intervals of coding sequence.
     bool haveOutgroup;//whether a list of ancestral states is available
     bool useTsTv;//estimate Ts/Tv ratio

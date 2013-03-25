@@ -14,7 +14,7 @@
 #endif
 #include <getopt.h>
 
-//using declarations are given explicitly here because the code 
+//using declarations are given explicitly here because the code
 //is complicated, so this should help document where certain
 //functions come from
 using std::vector;
@@ -142,12 +142,18 @@ void parseargs(int argc, char *argv[],params *args,USG usage)
   char *posfile=NULL;
 
   //LEOPARD PROBLEM?
-  while ((c = getopt (argc, argv, "i:O:I:C:E:F:n:kPNSTXA")) != -1)
+  while ((c = getopt (argc, argv, "1:2:i:O:I:C:E:F:n:kPNSTXA")) != -1)
     {
       switch (c)
         {
         case 'i':
           args->infile = optarg;
+          break;
+        case '1':
+          args->i1 = optarg;
+          break;
+        case '2':
+          args->i2 = optarg;
           break;
         case 'I':
           num_intervals = atoi(optarg);
