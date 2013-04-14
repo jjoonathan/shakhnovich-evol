@@ -119,6 +119,7 @@ int main (int argc, char *argv[])
 	  exit(10);
 	}
       GetData(data,args.infile);
+      cerr<<data.size()<<"####"<<endl;
       if(!IsAlignment(data))
         {
           cerr << "error: data don't seem to be aligned...\n";

@@ -1,4 +1,5 @@
 // vim: ts=6:sts=6:sw=6
+#include <cstring>
 #include <cassert>
 #include <vector>
 #include <map>
@@ -12,6 +13,7 @@
 #include <functional>
 #include <set>
 #include <cctype>
+#include <sstream>
 #if defined (__SVR4) && defined (__sun)
 #include <ieeefp.h>
 #endif
@@ -175,14 +177,18 @@ int main (int argc, char *argv[])
             if (!all_good)
                   cerr<<"Clone "<<cid<<" (in /tmp/a.ffn) had uneven lengths!\n";
             if (!all_good || cid==0) {
-                  ofstream fout("/tmp/a.ffn");
+                  const char* iname = strrchr(args.i1,'/')+1;
+                  ostringstream logpath;
+                  logpath<<"/tmp/"<<iname;
+                  cerr<<"#####"<<logpath.str()<<"#########\n";
+                  ofstream fout(logpath.str());
                   vector<Fasta>& ingroup = in_cid2ms[cid];
                   vector<Fasta>& outgroup = out_cid2ms[cid];
-                  for (int i=0; i<ingroup.size(); i++) {
+                  for (unsigned i=0; i<ingroup.size(); i++) {
                         fout<<">in"<<i<<" "<<ingroup[i].length()<<"\n";
                         fout<<ingroup[i].GetSeq()<<"\n";
                   }
-                  for (int i=0; i<outgroup.size(); i++) {
+                  for (unsigned i=0; i<outgroup.size(); i++) {
                         fout<<">out"<<i<<" "<<outgroup[i].length()<<"\n";
                         fout<<outgroup[i].GetSeq()<<"\n";
                   }
@@ -231,7 +237,7 @@ int main (int argc, char *argv[])
             // Call mutations as synonymous or nonsynonymous
             vector<int> fullseq = {0,n-1}; args.intervals = fullseq;
             codingRegionProcessor in_crp(ingroup, in_ss_locs, fullseq);
-            codingRegionProcessor out_crp(ingroup, out_ss_locs, fullseq);
+            codingRegionProcessor out_crp(outgroup, out_ss_locs, fullseq);
             print_coding_warnings(in_crp);
             print_coding_warnings(out_crp);
             PolySites *A1 = new PolySites(in_crp.replacementTable());
@@ -285,7 +291,6 @@ int main (int argc, char *argv[])
                   vector<char>::iterator itr = set_intersection(one.begin(),one.end(),
                                                     two.begin(),two.end(),
                                                     overlap.begin());
-
 
                   if ( itr-overlap.begin() == 0 && one.size()==1 && two.size()==1) //fixed diff
                   {

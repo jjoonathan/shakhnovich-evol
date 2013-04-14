@@ -19,11 +19,13 @@ def fill_axes(ax):
 	ax.plot(blkm, lw=2, label='Michaelis-Menton', color='black')
 	ax.fill_between(np.arange(n), redm+redstd, redm-redstd, facecolor='red', alpha=.3)
 	ax.fill_between(np.arange(n), blkm+blkstd, blkm-blkstd, facecolor='black', alpha=.3)
-	ax.set_title('ASA vs Residue')
+	ax.set_title('Average +/- StdDev of ASA Within MM, Outlier Protein Families')
 	ax.set_ylabel('ASA (Angstrom^2)')
+	ax.legend(loc=1)
 	ax.set_xlabel('Residue #')
 
 if __name__ == '__main__':
-	fig,ax = plt.subplots(1)
+	fig = plt.figure(figsize=(10,10))
+	ax = fig.add_subplot(111)
 	fill_axes(ax)
-	plt.show()
+	plt.savefig('ASA.pdf')

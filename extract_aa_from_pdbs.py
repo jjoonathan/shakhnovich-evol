@@ -30,7 +30,7 @@ aln_h, aln_s = st.read_fasta('PROTEIN/ALIGNED.fasta')
 aln_h = [h[1:-1] for h in aln_h]  # Strip > and \n from '>SEQID_STR\n'
 id2aln = dict(zip(aln_h,aln_s))
 
-pdbs = glob('/mnt/hgfs/D/jon/Documents/2012/summer/pdbs/*')
+pdbs = glob('/mnt/hgfs/D/jon/Documents/2012/summer/pdbs/o_*')
 pdbparser = PDBParser(PERMISSIVE=1)
 AA_hdrs = []
 AA_seqs = []  # Array of (ASA array of len(aligned sequence))

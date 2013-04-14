@@ -7,3 +7,5 @@ Makefile
 config.h
 config.log
 config.status
+analysis-*
+libsequence-*

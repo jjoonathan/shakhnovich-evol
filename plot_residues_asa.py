@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plot_asa
 import os
+from IPython import embed
 rnames="""NP_267306
 NP_349605
 NP_471321
@@ -96,7 +97,9 @@ rm, bm, n = len(r_seqs), len(b_seqs), len(r_seqs[0])
 x = np.arange(n)
 
 ########### Gross copypasta, but this is just a one-off script...
-sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
+sr = plot_asa.redm     # (S_red, S_blk) are replaced with (S_red, ASA_red)
+sb = entropy(r_seqs)
+# sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
 pr, pb = count_by_site(polar,r_seqs)/rm, count_by_site(polar,b_seqs)/bm
 wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
 pax = fig.add_subplot(311)
@@ -106,14 +109,15 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier Polar/Total','MM Polar/Total'],loc=4) 
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+embed()
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
-plt.title('Polar AA Fraction below S, WY Fraction')
+plt.title('(Fraction Polar, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
 # sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
 # wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
@@ -125,14 +129,14 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier DE/Total','MM DE/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
-plt.title('Acidic AA Fraction below S, WY Fraction')
+plt.title('(Fraction Acidic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
 # sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
 # wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
@@ -144,17 +148,17 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier KR/Total','MM KR/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
 plt.xlabel('AA Position')
-plt.title('Basic AA Fraction below S, WY Fraction')
+plt.title('(Fraction Basic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
-plt.savefig('AATypeAndS.pdf')
+plt.savefig('AA+S+ASA.pdf')
 
 
 
@@ -185,14 +189,14 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier Polar/Total','MM Polar/Total'],loc=4) 
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
-plt.title('Polar AA Fraction (10-AA average) below S, WY Fraction')
+plt.title('(Fraction Polar, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
 # sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
 # wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
@@ -206,14 +210,14 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier DE/Total','MM DE/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
-plt.title('Acidic AA Fraction (10-AA average) below S, WY Fraction')
+plt.title('(Fraction Acidic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
 # sr, sb, srb = entropy(r_seqs), entropy(b_seqs), entropy(r_seqs+b_seqs)
 # wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
@@ -227,17 +231,17 @@ l1 = pax.legend([plt_rp,plt_bp],['Outlier KR/Total','MM KR/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
 l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
-plt_sr, = pax.plot(x+.5,sr/3,color='r')
-plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+plt_sr, = pax.plot(x+.5,sr/3,color='g')
+plt_sb, = pax.plot(x+.5,sb/3,color='b')
+l3 = pax.legend([plt_sr,plt_sb],['S','ASA'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
 plt.ylim([-1,1])
 plt.xlabel('AA Position')
-plt.title('Basic AA Fraction (10-AA average) below S, WY Fraction')
+plt.title('(Fraction Basic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
-plt.savefig('AATypeAndS_Smoothed.pdf')
+plt.savefig('AA+S_smooth.pdf')
 
 
 basic_r = count_by_site('KR',r_seqs)/rm
