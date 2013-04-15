@@ -9,3 +9,6 @@ config.log
 config.status
 analysis-*
 libsequence-*
+*.pyc
+*.out
+*.dnd
