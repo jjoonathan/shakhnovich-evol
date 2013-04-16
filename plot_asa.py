@@ -12,11 +12,11 @@ redm = red.mean(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill
 redstd = red.std(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
 blkm = blk.mean(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
 blkstd = blk.std(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
-n = len(red['RED_NP_217278'])  # Convention: m=#rows, n=#cols
+n = len(blk['BLK_NP_217278'])  # Convention: m=#rows, n=#cols
 
 def fill_axes(ax):
-	ax.plot(redm, lw=2, label='Outliers', color='red')
-	ax.plot(blkm, lw=2, label='Michaelis-Menton', color='black')
+	ax.plot(redm, lw=2, label='Michaelis-Menton', color='red')
+	ax.plot(blkm, lw=2, label='Outlier', color='black')
 	ax.fill_between(np.arange(n), redm+redstd, redm-redstd, facecolor='red', alpha=.3)
 	ax.fill_between(np.arange(n), blkm+blkstd, blkm-blkstd, facecolor='black', alpha=.3)
 	ax.set_title('Average +/- StdDev of ASA Within MM, Outlier Protein Families')

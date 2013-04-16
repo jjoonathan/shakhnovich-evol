@@ -1,3 +1,5 @@
+# Turn back, all ye who look for good code here.
+# Hardcoded values, copy+paste+modify, and general sloppiness run amok!
 from collections import Counter
 from math import log, pi
 import seqtools as st
@@ -5,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plot_asa
 import os
-rnames="""NP_267306
+bnames="""NP_267306
 NP_349605
 NP_471321
 NP_883118
@@ -26,7 +28,7 @@ YP_001312015
 YP_001454852
 ZP_04674563
 ZP_06040137""".splitlines()
-bnames="""AAA22853
+rnames="""AAA22853
 CAA58993
 NP_246832
 YP_315797
@@ -102,13 +104,13 @@ wyr, wyb = count_by_site('WY',r_seqs)/rm, count_by_site('WY',b_seqs)/bm
 pax = fig.add_subplot(311)
 plt_rp = pax.bar(x,-pr,1,color='r')
 plt_bp = pax.bar(x+(1-.3)/2,-pb,.3,color='k')
-l1 = pax.legend([plt_rp,plt_bp],['Outlier Polar/Total','MM Polar/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM Polar/Total','Outlier Polar/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
@@ -121,13 +123,13 @@ pr, pb = count_by_site('DE',r_seqs)/rm, count_by_site('DE',b_seqs)/bm
 pax = fig.add_subplot(312)
 plt_rp = pax.bar(x,-pr,1,color='r')
 plt_bp = pax.bar(x+(1-.3)/2,-pb,.3,color='k')
-l1 = pax.legend([plt_rp,plt_bp],['Outlier DE/Total','MM DE/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM DE/Total','Outlier DE/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
@@ -140,13 +142,13 @@ pr, pb = count_by_site('KR',r_seqs)/rm, count_by_site('KR',b_seqs)/bm
 pax = fig.add_subplot(313)
 plt_rp = pax.bar(x,-pr,1,color='r')
 plt_bp = pax.bar(x+(1-.3)/2,-pb,.3,color='k')
-l1 = pax.legend([plt_rp,plt_bp],['Outlier KR/Total','MM KR/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM KR/Total','Outlier KR/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
@@ -181,13 +183,13 @@ pb = np.convolve(pb,window,'same')
 pax = fig.add_subplot(311)
 plt_rp, = pax.plot(x,-pr,color='r',linewidth=3)
 plt_bp, = pax.plot(x+(1-.3)/2,-pb,color='k',linewidth=3)
-l1 = pax.legend([plt_rp,plt_bp],['Outlier Polar/Total','MM Polar/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM Polar/Total','Outlier Polar/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
@@ -202,13 +204,13 @@ pb = np.convolve(pb,window,'same')
 pax = fig.add_subplot(312)
 plt_rp, = pax.plot(x,-pr,color='r',linewidth=3)
 plt_bp, = pax.plot(x+(1-.3)/2,-pb,color='k',linewidth=3)
-l1 = pax.legend([plt_rp,plt_bp],['Outlier DE/Total','MM DE/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM DE/Total','Outlier DE/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
@@ -223,13 +225,13 @@ pb = np.convolve(pb,window,'same')
 pax = fig.add_subplot(313)
 plt_rp, = pax.plot(x,-pr,color='r',linewidth=3)
 plt_bp, = pax.plot(x+(1-.3)/2,-pb,color='k',linewidth=3)
-l1 = pax.legend([plt_rp,plt_bp],['Outlier KR/Total','MM KR/Total'],loc=4) #
+l1 = pax.legend([plt_rp,plt_bp],['MM KR/Total','Outlier KR/Total'],loc=4) #
 plt_rwy = pax.bar(x,wyr,1,color='r')
 plt_bwy = pax.bar(x+(1-.3)/2,wyb,.3,color='k')
-l2 = pax.legend([plt_rwy,plt_bwy],['Outlier WY/Total','MM WY/Total'],loc=1) #####
+l2 = pax.legend([plt_rwy,plt_bwy],['MM WY/Total','Outlier WY/Total'],loc=1) #####
 plt_sr, = pax.plot(x+.5,sr/3,color='r')
 plt_sb, = pax.plot(x+.5,sb/3,color='k')
-l3 = pax.legend([plt_sr,plt_sb],['S(Outlier)','S(MM)'],loc=2) ###################
+l3 = pax.legend([plt_sr,plt_sb],['S(MM)','S(Outlier)'],loc=2) ###################
 plt.gca().add_artist(l1)
 plt.gca().add_artist(l2)
 plt.xlim([0,n])
