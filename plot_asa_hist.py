@@ -23,12 +23,12 @@ def ASAs_for_sites(needles, haystack_h, haystack_s):
                 amax = asa_max(seq[j-1:j+2])
                 amean = asa_mean(seq[j-1:j+2])
                 if np.isnan(amax) or np.isnan(amean):
-                    print "Triplet had NAN asa_max or asa_mean: "+seq[j-1:j+2]
+                    print "Triplet had NAN  or 0 asa_max or asa_mean: "+seq[j-1:j+2]
                     embed()
                 if amax==0 or amean==0:
-                    print "Triplet had NAN asa_max or asa_mean: "+seq[j-1:j+2]
+                    print "Triplet had NAN or 0 asa_max or asa_mean: "+seq[j-1:j+2]
                     embed()
-                ret.append(asas[j]/amax)
+                ret.append(asas[j]/amean)
     return ret
 
 acid_r = gaussian_kde(ASAs_for_sites(acidic, rah, ras))
@@ -38,30 +38,27 @@ basic_b = gaussian_kde(ASAs_for_sites(basic, bah, bas))
 polar_r = gaussian_kde(ASAs_for_sites(polar, rah, ras))
 polar_b = gaussian_kde(ASAs_for_sites(polar, bah, bas))
 
-x = np.linspace(0,20,500)
+x = np.linspace(0,.4,500)
 fig = plt.figure(figsize=(20,15))
 ax = fig.add_subplot(221)
 ax.plot(x,acid_r(x),'r', x,acid_b(x),'k')
 ax.set_ylabel('Density of Nearby ASA Observations')
-ax.set_xlabel('ASA')
+ax.set_xlabel('ASA / (Max ASA for triplet)')
 ax.legend(('Michaelis-Menton','Outlier'))
 ax.set_title('Continuous Histogram (KDE) for ASA of Acidic Residues')
 
 ax = fig.add_subplot(222)
 ax.plot(x,basic_r(x),'r', x,basic_b(x),'k')
 ax.set_ylabel('Density of Nearby ASA Observations')
-ax.set_xlabel('ASA')
+ax.set_xlabel('ASA / (Max ASA for triplet)')
 ax.legend(('Michaelis-Menton','Outlier'))
 ax.set_title('Continuous Histogram (KDE) for ASA of Basic Residues')
 
 ax = fig.add_subplot(223)
 ax.plot(x,polar_r(x),'r', x,polar_b(x),'k')
 ax.set_ylabel('Density of Nearby ASA Observations')
-ax.set_xlabel('ASA')
+ax.set_xlabel('ASA / (Max ASA for triplet)')
 ax.legend(('Michaelis-Menton','Outlier'))
 ax.set_title('Continuous Histogram (KDE) for ASA of Polar Residues')
 
 plt.savefig('asa_hist.pdf')
-
-embed()
-

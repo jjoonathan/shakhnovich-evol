@@ -3,6 +3,9 @@ import numpy as np
 from shared import *
 import itertools
 
+# ASA data from
+# http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2685369/
+
 la = len(alphabet)
 asa_max = np.zeros((la,la,la))
 asa_mean = np.zeros((la,la,la))
