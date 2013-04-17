@@ -4,21 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from IPython import embed
-
-asas=pd.read_table('ASAs.tsv')
-red=pd.DataFrame(asas[[k for k in asas if k.startswith('RED')]])
-blk=pd.DataFrame(asas[[k for k in asas if k.startswith('BLK')]])
-redm = red.mean(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
-redstd = red.std(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
-blkm = blk.mean(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
-blkstd = blk.std(axis=1, skipna=True).fillna(method='bfill').fillna(method='ffill').values
-n = len(blk['BLK_NP_217278'])  # Convention: m=#rows, n=#cols
+from shared import *
 
 def fill_axes(ax):
-	ax.plot(redm, lw=2, label='Michaelis-Menton', color='red')
-	ax.plot(blkm, lw=2, label='Outlier', color='black')
-	ax.fill_between(np.arange(n), redm+redstd, redm-redstd, facecolor='red', alpha=.3)
-	ax.fill_between(np.arange(n), blkm+blkstd, blkm-blkstd, facecolor='black', alpha=.3)
+	ax.plot(red_asa, lw=2, label='Michaelis-Menton', color='red')
+	ax.plot(blk_asa, lw=2, label='Outlier', color='black')
+	ax.fill_between(np.arange(n), red_asa+red_asa_std, red_asa-red_asa_std, facecolor='red', alpha=.3)
+	ax.fill_between(np.arange(n), blk_asa+blk_asa_std, blk_asa-blk_asa_std, facecolor='black', alpha=.3)
 	ax.set_title('Average +/- StdDev of ASA Within MM, Outlier Protein Families')
 	ax.set_ylabel('ASA (Angstrom^2)')
 	ax.legend(loc=1)
