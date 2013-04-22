@@ -156,6 +156,7 @@ plt.ylim([-1,1])
 plt.xlabel('AA Position')
 plt.title('(Fraction Basic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
+fig.tight_layout()
 plt.savefig('AA+S.pdf')
 
 
@@ -239,6 +240,7 @@ plt.ylim([-1,1])
 plt.xlabel('AA Position')
 plt.title('(Fraction Basic, Fraction WY, Entropy) Within (MM,Outlier) Populations')
 
+plt.tight_layout()
 plt.savefig('AA+S_smooth.pdf')
 
 

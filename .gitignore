@@ -12,3 +12,9 @@ libsequence-*
 *.pyc
 *.out
 *.dnd
+*.pdf
+*.log
+*.dvi
+*.aux
+*~
+*.ps

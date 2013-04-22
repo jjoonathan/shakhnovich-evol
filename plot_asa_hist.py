@@ -62,3 +62,4 @@ ax.legend(('Michaelis-Menton','Outlier'))
 ax.set_title('Continuous Histogram (KDE) for ASA of Polar Residues')
 
 plt.savefig('asa_hist.pdf')
+

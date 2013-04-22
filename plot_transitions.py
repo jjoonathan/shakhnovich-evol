@@ -54,23 +54,26 @@ def annotate(plt,ax,mat):
 						horizontalalignment='center',
 						verticalalignment='center')
 
-fig = plt.figure(figsize=(20,20))
+fig = plt.figure(figsize=(8.5,11))
 
 
 ax = fig.add_subplot(221)
-ims = plt.imshow(xr, cmap=plt.cm.Reds, interpolation='nearest')
+ims = ax.imshow(xr, cmap=plt.cm.Reds, interpolation='nearest')
 annotate(plt,ax,xr)
 plt.title('Transition Map for Red (MM) Sequences')
 
 ax = fig.add_subplot(224)
-ims = plt.imshow(xr, cmap=plt.cm.Greys, interpolation='nearest')
-annotate(plt,ax,xr)
+ims = ax.imshow(xb, cmap=plt.cm.Greys, interpolation='nearest')
+annotate(plt,ax,xb)
 plt.title('Renormalized Transition Map for Black (Outlier) Sequences')
 
 ax = fig.add_subplot(222)
-ims = plt.imshow(xr, cmap=plt.cm.Purples, interpolation='nearest')
-annotate(plt,ax,xr)
+ims = ax.imshow(xdif, cmap=plt.cm.Purples, interpolation='nearest')
+annotate(plt,ax,xdif)
 plt.title('Red - Black Transitions Map')
+
+ax = fig.add_subplot(223)
+ax.text(0,0,'Lorem Ipsum'*20)
 
 
 plt.savefig('transitions.pdf')
