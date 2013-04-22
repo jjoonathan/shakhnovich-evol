@@ -39,7 +39,7 @@ open('xb.tsv','w').write(mat2str(xb,alphabet))
 # xr /=xmax
 # xb /=xmax
 xsum = xr+xb
-xdif = xr-xb
+xdif = 2*(xr-xb)/(xr+xb)
 # xsum = (xsum-xsum.mean())/xsum.std()
 # xdif = (xdif-xdif.mean())/xdif.std()
 
@@ -51,7 +51,7 @@ def annotate(plt,ax,mat):
 		for y in range(la):
 			v = mat[x][y]
 			#if abs(v)<1: continue
-			ax.annotate(('%.3g'%v), xy=(y, x),
+			ax.annotate(('%.2g'%v), xy=(y, x),
 						horizontalalignment='center',
 						verticalalignment='center')
 
@@ -71,22 +71,19 @@ plt.title('Renormalized Transition Map for Black (Outlier) Sequences')
 ax = fig.add_subplot(222)
 ims = ax.imshow(xdif, cmap=plt.cm.Purples, interpolation='nearest')
 annotate(plt,ax,xdif)
-plt.title('Red - Black Transitions Map')
+plt.title('(Tred-Tblack)/mean(Tred,Tblack)')
 
-minxn = min(xr.min(),xb.min(),xdif.min())
-maxxn = max(xr.max(),xb.max(),xdif.max())
-xr_kde = gaussian_kde(xr.flatten())
-xb_kde = gaussian_kde(xb.flatten())
-xdif_kde = gaussian_kde(xdif.flatten())
-x = np.linspace(minxn,maxxn,300)
+xdif = xdif.flatten()
+xdif = xdif[~np.isnan(xdif)]
+xdif_kde = gaussian_kde(xdif)
+x = np.linspace(-3,3,300)
 ax = fig.add_subplot(223)
-plt.plot(x,xr_kde(x),'r', label='Estimated PDF of red transition counts')
-plt.plot(x,xb_kde(x),'k', label='Estimated PDF of black transition counts')
-plt.plot(x,xdif_kde(x),'purple', label='Estimated PDF of differences between transition counts')
+plt.plot(x, xdif_kde(x), 'purple', label='Estimated PDF of Differences Between Transition Counts')
+plt.plot(xdif, np.random.rand(len(xdif))*.1, color='purple', marker='.', linestyle='none', label='Transition Counts (jittered in y direction for visibility only)')
 plt.legend()
 
 
 
 fig.tight_layout(pad=3)
-plt.savefig('transitions.pdf')
+plt.savefig('transitions_normed.pdf')
 # plt.show()

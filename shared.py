@@ -42,7 +42,7 @@ def entropy(seqs,traditional=False):
         ctr = Counter(seqs[i][j] for i in range(m))
         for chr,count in ctr.iteritems():
             ret[j] -= count*log(count) - (0 if traditional else log(2*pi*count)/2)
-    return ret/m
+    return ret/m/log(2)
 
 charged = 'RKHYCDE'
 acidic = 'DE'
@@ -124,18 +124,25 @@ for h,s in zip(aligned_hdrs,aligned_seqs):
     else:
         print "WARNING: shared.py couldn't classify %s as red/black"%h.strip()
 assert(len(rah)>0 and len(bah)>0)
+asmap = dict(zip(rah+bah,ras+bas))
+aspmap = dict(zip(rahp+bahp,rasp+basp))
 
 asa_frame=pd.read_table('ASAs.tsv')
-asa_frame.fillna(method='bfill').fillna(method='ffill')
 asa_frame_norb = asa_frame.copy()
 asa_frame_norb.columns = [cname[4:] for cname in asa_frame.columns]
 red_asa_frame=pd.DataFrame(asa_frame[[k for k in asa_frame if k.startswith('RED')]])
 blk_asa_frame=pd.DataFrame(asa_frame[[k for k in asa_frame if k.startswith('BLK')]])
-red_asa = red_asa_frame.mean(axis=1, skipna=True).values
+red_asa = red_asa_frame.mean(axis=1, skipna=True)
+red_asa.ffill(inplace=True); red_asa.bfill(inplace=True)
+red_asa = red_asa.values
 red_asa_std = blk_asa_frame.std(axis=1, skipna=True).values
-blk_asa = blk_asa_frame.mean(axis=1, skipna=True).values
+blk_asa = blk_asa_frame.mean(axis=1, skipna=True)
+blk_asa.ffill(inplace=True); blk_asa.bfill(inplace=True)
+blk_asa = blk_asa.values
 blk_asa_std = blk_asa_frame.std(axis=1, skipna=True).values
 n = len(blk_asa_frame[blk_asa_frame.keys()[0]])  # Convention: m=#rows, n=#cols
+mr = len(rah)
+mb = len(bah)
 
 try:
     ASA_n8n = open('ASA_normalization.npy')
@@ -152,5 +159,17 @@ try:
         if j==None: i,j,k = i
         return asa_std_mat[chr2idx[ord(i)],chr2idx[ord(j)],chr2idx[ord(k)]]
     del ASA_n8n
+    nasa_frame = asa_frame.copy()
+    for seqname in nasa_frame:
+        nasa = nasa_frame[seqname]
+        seq = asmap[seqname[4:]]
+        for j in range(1,len(seq)-1):
+            nasa[j] /= asa_mean(seq[j-1:j+2])
+    nasa_frame.ffill(inplace=True)
+    nasa_frame.bfill(inplace=True)
+    red_nasa_frame = nasa_frame[[k for k in nasa_frame if k.startswith('RED')]]
+    blk_nasa_frame = nasa_frame[[k for k in nasa_frame if k.startswith('BLK')]]
+    red_nasa = red_nasa_frame.mean(axis=1, skipna=True).values
+    blk_nasa = blk_nasa_frame.mean(axis=1, skipna=True).values
 except IOError:
     pass

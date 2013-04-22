@@ -61,5 +61,6 @@ ax.set_xlabel('ASA / (Max ASA for triplet)')
 ax.legend(('Michaelis-Menton','Outlier'))
 ax.set_title('Continuous Histogram (KDE) for ASA of Polar Residues')
 
+fig.tight_layout()
 plt.savefig('asa_hist.pdf')
 
