@@ -101,7 +101,7 @@ hydrophobic = 'AILFWF'
 
 ecoli_dhfr = 'NP_414590.1'
 
-bnames="""NP_267306
+rnames="""NP_267306
 NP_349605
 NP_471321
 NP_883118
@@ -123,7 +123,7 @@ YP_001454852
 ZP_04674563
 ZP_06040137""".splitlines()
 
-rnames="""AAA22853
+bnames="""AAA22853
 CAA58993
 NP_246832
 YP_315797
