@@ -31,9 +31,10 @@ def mat2str(mat,hdr):
         bodystrs.append(hdr[i]+'\t'+'\t'.join(str(int(x)) for x in mat[i]))
     return '\n'.join(bodystrs)
 
+
 xr = xmat(r_seqs)
+xb = xmat(b_seqs)
 open('xr.tsv','w').write(mat2str(xr,alphabet))
-xb = (xmat(b_seqs)*len(r_seqs)/len(b_seqs)).round()
 open('xb.tsv','w').write(mat2str(xb,alphabet))
 # xmax = max(xr.max(),xb.max())
 # xr /=xmax
@@ -51,7 +52,7 @@ def annotate(plt,ax,mat):
 		for y in range(la):
 			v = mat[x][y]
 			#if abs(v)<1: continue
-			ax.annotate(('%.3g'%v), xy=(y, x),
+			ax.annotate(('%.2g'%v), xy=(y, x),
 						horizontalalignment='center',
 						verticalalignment='center')
 
@@ -61,31 +62,25 @@ fig = plt.figure(figsize=(20,20))
 ax = fig.add_subplot(221)
 ims = ax.imshow(xr, cmap=plt.cm.Reds, interpolation='nearest')
 annotate(plt,ax,xr)
-plt.title('Transition Map for Red (MM) Sequences')
-
-ax = fig.add_subplot(224)
-ims = ax.imshow(xb, cmap=plt.cm.Greys, interpolation='nearest')
-annotate(plt,ax,xb)
-plt.title('Renormalized Transition Map for Black (Outlier) Sequences')
+plt.title('Transition Counts Summed Across All %i MM Sequences'%len(r_seqs))
 
 ax = fig.add_subplot(222)
-ims = ax.imshow(xdif, cmap=plt.cm.Purples, interpolation='nearest')
-annotate(plt,ax,xdif)
-plt.title('Red - Black Transitions Map')
+xr1 = xmat([asmap['NP_349605']])
+ims = ax.imshow(xr1, cmap=plt.cm.Reds, interpolation='nearest')
+annotate(plt,ax,xr1)
+plt.title('Transition Counts for the NP_349605 MM Sequence (Q=1)')
 
-minxn = min(xr.min(),xb.min(),xdif.min())
-maxxn = max(xr.max(),xb.max(),xdif.max())
-xr_kde = gaussian_kde(xr.flatten())
-xb_kde = gaussian_kde(xb.flatten())
-xdif_kde = gaussian_kde(xdif.flatten())
-x = np.linspace(minxn,maxxn,300)
+
 ax = fig.add_subplot(223)
-plt.plot(x,xr_kde(x),'r', label='Estimated PDF of red transition counts')
-plt.plot(x,xb_kde(x),'k', label='Estimated PDF of black transition counts')
-plt.plot(x,xdif_kde(x),'purple', label='Estimated PDF of differences between transition counts')
-plt.legend()
+ims = ax.imshow(xb, cmap=plt.cm.Greys, interpolation='nearest')
+annotate(plt,ax,xb)
+plt.title('Transition Counts Summed Across All %i Outlier Sequences'%len(b_seqs))
 
-
+ax = fig.add_subplot(224)
+xb1 = xmat([asmap['NP_747233']])
+ims = ax.imshow(xb1, cmap=plt.cm.Greys, interpolation='nearest')
+annotate(plt,ax,xb1)
+plt.title('Transition Counts for the NP_747233 Outlier Sequence')
 
 fig.tight_layout(pad=3)
 plt.savefig('transitions.pdf')

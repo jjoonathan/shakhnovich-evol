@@ -1,9 +1,15 @@
 import seqtools as st
 import pandas as pd
 import numpy as np
+import itertools
 from math import log,pi
 from collections import Counter
 from IPython import embed
+
+# Pandas likes to remind us that fillna(inplace=True) will be returning
+# None in the future
+import warnings
+warnings.simplefilter(action = "ignore", category = FutureWarning)
 
 def count_by_site(letters, seqs):
     """ Returns an array the same length as any of seqs that
@@ -31,6 +37,21 @@ def find_sites(letters, threshold, seqs):
             ret.append(j)
     return ret
 
+def group_aa(seqs):
+    """ Transforms strings of amino acids into strings of 'representative AAs',
+    where polar groups are represented by S, acidic by D, basic by K, aromatic
+    by W, nonpolar by G, and 'special' (proline, cysteine) are left alone. """
+    table = bytearray(256)  # translation table
+    table[:] = '-'*256
+    for aa in 'GAVLI': table[ord(aa)] = 'G'
+    for aa in 'DE': table[ord(aa)] = 'D'
+    for aa in 'STQNQ': table[ord(aa)] = 'S'
+    for aa in 'KHN': table[ord(aa)] = 'K'
+    for aa in 'FYW': table[ord(aa)] = 'W'
+    table[ord('C')] = 'C'
+    table[ord('P')] = 'P'
+    return [s.translate(str(table)) for s in seqs]
+
 
 def entropy(seqs,traditional=False):
     """ Returns an array with each element corresponding to the sequence entropy
@@ -44,11 +65,41 @@ def entropy(seqs,traditional=False):
             ret[j] -= count*log(count) - (0 if traditional else log(2*pi*count)/2)
     return ret/m/log(2)
 
+def bake_biopython_score_mat(biopython_mat):
+    ret = np.zeros((256,256))*np.nan
+    alphab = set()
+    for ((a,b),v) in biopython_mat.iteritems():
+        orda = ord(a)
+        ordb = ord(b)
+        ret[orda,ordb] = v
+        ret[ordb,orda] = v
+        alphab.add(orda)
+        alphab.add(ordb)
+    orddash = ord('-')
+    for orda in alphab:
+        ret[orda,orddash] = -3
+        ret[orddash,orda] = -3
+    ret[orddash,orddash] = 0
+    return ret
+
+default_baked_mat = None
+def identity_score(seq1, seq2, baked_matrix=None):
+    if baked_matrix == None:
+        if default_baked_mat == None:
+            from Bio.SubsMat.MatrixInfo import blosum62
+            default_baked_matrix = bake_biopython_score_mat(blosum62)
+        baked_matrix = default_baked_matrix
+    a1 = np.frombuffer(seq1, dtype=np.uint8)
+    a2 = np.frombuffer(seq2, dtype=np.uint8)
+    return baked_matrix[a1,a2].sum()
+
 charged = 'RKHYCDE'
 acidic = 'DE'
 basic = 'KR'
 polar = 'STNQ' #'STNQCY'
 hydrophobic = 'AILFWF'
+
+ecoli_dhfr = 'NP_414590.1'
 
 bnames="""NP_267306
 NP_349605

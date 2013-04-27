@@ -1,9 +1,20 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage{graphicx}
+\usepackage{sidecap}
 \usepackage[margin=.5in]{geometry}
 \begin{document}
 
 \listoffigures
+\newpage
+
+\begin{SCfigure}
+\includegraphics[width=4in]{mm.pdf}
+\caption[GroEL Classification Histogram]{The $K_{\rm cat}$ and $K_{\rm M}$ measurements were fit to growth rate measurements using least squares in the Michaelis-Menten Model: $v_{\rm growth}\propto v_{\rm cat}$ where $v_{\rm cat}=\frac{K_{\rm cat}[E][S]}{K_M+[S]}=\frac{K_{\rm cat}}{K_M}\frac{[E][S]}{1+[S]/K_M}=x\frac{c_1}{1+x\cdot c_2/K_{\rm cat}}$.}
+\end{SCfigure}
+\begin{SCfigure}
+\includegraphics[width=4in]{groEL_cat_hist.pdf}
+\caption[GroEL Classification Histogram]{Each DHFR gene was run through the camGroEL classifier to determine weather it fell into class I (does not depend on GroEL to fold), class II (conditionally depends on GroEL), or class III (an obligatory client of GroEL). The red group counts those which were observed to follow Michaelis-Menton kinetics while the black group counts those which were not.}
+\end{SCfigure}
 
 
 \begin{figure}[h]
@@ -37,7 +48,7 @@
 \begin{figure}
 \centerline{\includegraphics[width=8in]{window_an.pdf}}
 \caption[Moving Averages of $S_{\rm red},S_{\rm black},ASA_{\rm red},ASA_{\rm 
-black}$ for Windows of (5,10,20) Residues]{Entropy per residue per sequence was measured in bits/4 and plotted in the $[0,1]$ ordinal range for Michaelis-Menton obeying (red) and outlier (black) sequences. Accessible Surface Area was plotted in the $[-1,0]$ ordinal range, measured in units of HOA/2 (the Highest Observed ASA of the corresponding 3-residue environment in PDB), averaged over DHFR sequences. Both quantities were then subject to a moving average over the residue\# axis using a box window of length (5,10,20). Locations at which polar, acidic, basic, or WY residues composed $>25\%$ of the DHFR alignment ensemble were indicated by dots on the horizontal axis. One notable feature that varies under window choice is hte effect of spikes in the raw normalized ASA trace (see Figure 3) corresponding to glycine residues (presumably in loops).}
+black}$ for Windows of (5,10,20) Residues]{Entropy per residue per sequence was measured in bits/4 and plotted in the $[0,1]$ ordinal range for Michaelis-Menton obeying (red) and outlier (black) sequences. A second set of entropy traces corresponding to entropy calculated over amino acid class (polar, aromatic, etc) was scaled such that its mean matched the mean of the traditional entropy traces and it was overlaid using a thinner linewidth. Accessible Surface Area was plotted in the $[-1,0]$ ordinal range, measured in units of HOA/2 (the Highest Observed ASA of the corresponding 3-residue environment in PDB), averaged over DHFR sequences. Both quantities were then subject to a moving average over the residue\# axis using a box window of length (5,10,20). Locations at which polar, acidic, basic, or WY residues composed $>25\%$ of the DHFR alignment ensemble were indicated by dots on the horizontal axis. One notable feature that varies under window choice is hte effect of spikes in the raw normalized ASA trace (see Figure 3) corresponding to glycine residues (presumably in loops).}
 \end{figure}
 
 
@@ -50,14 +61,13 @@ black}$ for Windows of (5,10,20) Residues]{Entropy per residue per sequence was 
 
 \begin{figure}
 \centerline{\includegraphics[width=8in]{transitions.pdf}}
-\caption[Amino Acid Transition Matrix]{The transition counts between amino acids in sequences of the DHFR structures which obeyed MM kinetics (red) and those that did not (black) were computed and displayed in a table. Rows correspond to the amino acid closer to the n-terminal end of the protein. For the purposes of computation, gaps were treated as additional amino acids. Since there were a different number of sequences in the red and black groups, the numbers in the black group were renormalized and rounded off to integers. The difference between the number of observed AA transitions of a given type between red/black DHFR sequences was then computed and plotted in purple. A continuous histogram of these values was provided to assess the significance of outliers.}
+\caption[Amino Acid Transition Matrix]{The transition counts between amino acids in sequences of the DHFR structures which obeyed MM kinetics (red) and those that did not (black) were summed across all DHFR sequences in each constituent group and tabulated. Rows correspond to the amino acid closer to the n-terminal end of the protein. For the purposes of computation, gaps were treated identically to amino acids.}
 \end{figure}
 
 \begin{figure}
 \centerline{\includegraphics[width=8in]{transitions_normed.pdf}}
-\caption[Amino Acid Transition Matrix with Normalized Differences]{The transition counts between amino acids in sequences of the DHFR structures which obeyed MM kinetics (red) and those that did not (black) were computed and displayed in a table. Rows correspond to the amino acid closer to the n-terminal end of the protein. For the purposes of computation, gaps were treated as additional amino acids. Since there were a different number of sequences in the red and black groups, the numbers in the black group were renormalized and rounded off to integers. The difference between the number of observed AA transitions of a given type between red/black DHFR sequences was then computed and plotted in purple, after being divided by the average transition count to control for the difference in absolute transition propensities. A continuous histogram of these values was provided to assess the significance of outliers.}
+\caption[Amino Acid Transition Matrix with Normalized Differences]{Red and black transition matrices were computed as the total sums of transitions across all red and all black sequences respectively. Rows correspond to the AA closer to the N-terminal end of the peptide chain. Each sequence within the red and black group was then randomly permuted and the red, black transition matrices were recomputed. This was repeated 99 more times and the mean/std of each element across the 100 trials was determined. Z-scores for each observed transition count within the empirical null-model were then computed. {\bf The null expectation for 21*21 standard-normal samples is that we will find 6 $\mathbf{\vert z\vert>3}$ and .3 $\mathbf{\vert z\vert>4}$.} Transition elements involving gaps have been zeroed because otherwise the signal from gap clustering drowns out everything else.}
 \end{figure}
-
 
 
 \end{document}
